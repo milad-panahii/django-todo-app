@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {%block content%}
+<h2>welcome</h2>
+<h1>Your Todos:</h1>
+<div class="card">
+    {%for todo in todos%} 
+    <a class="card-body" href="{% url 'details' todo_id=todo.id %}">{{todo.title}} - {{todo.body}} -</a>
+    {%endfor%} 
+</div>
+<br />
+
+{% endblock %}
