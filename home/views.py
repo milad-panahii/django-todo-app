@@ -23,7 +23,7 @@ def create(request):
     if request.method=='POST':
         form= TodoCreateForms(request.POST)
         if form.is_valid():
-            cd=from.cleaned_data
+            cd = form.cleaned_data
             Todo.objects.create(title=cd['title'], body=cd['body'] , created=cd['created'])
             messages.success(request, 'Todo created successfully' , 'success')
             return redirect('home')
@@ -33,8 +33,15 @@ def create(request):
     return render(request, 'create.html', {'form':form})
 
 def update(request, todo_id):
+    todo = Todo.objects.get(id=todo_id)
+    # render(request, 'detail.html', context={"todo":todo})
     if request.method== 'POST':
-        pass
+        form = TodoUpdateForms(request.POST, instance = todo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Ok','success')
+            # return redirect('details', todo_id)
+            return redirect('home')
     else:
-        from = TodoUpdateForms()
+        form = TodoUpdateForms()
     return render(request, 'update.html' , {'form':form})
